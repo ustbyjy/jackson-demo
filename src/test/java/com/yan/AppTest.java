@@ -20,9 +20,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Yanjingyang
@@ -331,5 +329,32 @@ public class AppTest {
         ObjectWriter writer = mapper.writer();
         String result = writer.writeValueAsString(item);
         System.out.println(result);
+    }
+
+    @Test
+    public void test() throws Exception {
+        ObjectMapper om = new ObjectMapper();
+
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> scoreMap = new HashMap<>();
+
+        map.put("id", 1);
+        map.put("name", "Tom");
+
+        scoreMap.put("Math", 99);
+        scoreMap.put("English", 50);
+        map.put("score", scoreMap);
+
+        ObjectWriter writer = om.writer();
+        String result = writer.writeValueAsString(map);
+
+        System.out.println(result);
+
+        ObjectReader or = om.readerFor(Map.class);
+        Map<String, Object> _map = or.readValue(result);
+
+        System.out.println(_map.get("score").getClass().getName());
+        System.out.println(_map);
+
     }
 }
